@@ -1,0 +1,36 @@
+diff --git a/manifest.json b/manifest.json
+index 9020160412df22b875f4340ef7225b90a65da209..66128b051321a47bb439382bb1d8d4988a9dd9d6 100644
+--- a/manifest.json
++++ b/manifest.json
+@@ -1,15 +1,17 @@
+ {
+-"name":"Plasma Code",
+-"short_name":"Plasma",
+-"start_url":"./index.html",
+-"display":"standalone",
+-"background_color":"#0f172a",
+-"theme_color":"#22c55e",
+-"icons":[
+-{
+-"src":"https://cdn-icons-png.flaticon.com/512/906/906324.png",
+-"type":"image/png",
+-"sizes":"512x512"
++  "name": "Plasma OS Desktop",
++  "short_name": "PlasmaOS",
++  "start_url": "./",
++  "scope": "./",
++  "display": "standalone",
++  "background_color": "#020617",
++  "theme_color": "#1d4ed8",
++  "description": "Desktop-style web OS with launcher, terminal, notes, and files.",
++  "icons": [
++    {
++      "src": "https://cdn-icons-png.flaticon.com/512/906/906324.png",
++      "type": "image/png",
++      "sizes": "512x512"
++    }
++  ]
+ }
+-]
+-}
+\ No newline at end of file
