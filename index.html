@@ -1,0 +1,359 @@
+diff --git a/index.html b/index.html
+index add3f94b0d0c37df0dc0f45ec09263111510443c..37c1b7f1d768e0500b4c5eaf89cb6ca8670d2c3e 100644
+--- a/index.html
++++ b/index.html
+@@ -1,184 +1,184 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="en">
+ <head>
++<meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+-<title>Plasma Code</title>
+-
++<title>Plasma OS Desktop</title>
+ <link rel="manifest" href="manifest.json">
+-
+ <style>
+-body{
+-margin:0;
+-font-family:monospace;
+-background:var(--bg);
+-color:var(--text);
+-}
+-
+ :root{
+---bg:#0f172a;
+---panel:#020617;
+---text:white;
+---accent:#22c55e;
+-}
+-
+-.light{
+---bg:white;
+---panel:#eee;
+---text:black;
+-}
+-
+-#top{
+-display:flex;
+-background:var(--panel);
+-}
+-
+-button,select{
+-flex:1;
+-padding:12px;
+-border:none;
+-background:var(--accent);
+-color:white;
+-font-weight:bold;
+-}
+-
+-#editor{
+-width:100%;
+-height:50vh;
+-background:var(--panel);
+-color:#38bdf8;
+-border:none;
+-padding:15px;
+-font-size:15px;
+-outline:none;
+-}
+-
+-#output{
+-height:40vh;
+-overflow:auto;
+-background:black;
+-color:#facc15;
+-padding:10px;
+-}
++  --bg1:#0b1020;
++  --bg2:#1d4ed8;
++  --glass:rgba(15,23,42,.72);
++  --card:rgba(2,6,23,.92);
++  --text:#e2e8f0;
++  --accent:#22c55e;
++  --muted:#94a3b8;
++}
++*{box-sizing:border-box}
++body{margin:0;font-family:ui-monospace,Menlo,Monaco,"Courier New",monospace;color:var(--text);height:100vh;overflow:hidden}
++#desktop{position:relative;height:100vh;background:radial-gradient(circle at 20% 20%,var(--bg2),var(--bg1) 45%,#020617 100%)}
++#desktopIcons{position:absolute;inset:16px auto 64px 16px;display:grid;gap:14px;align-content:start}
++.desktop-icon{width:84px;background:transparent;color:#fff;border:0;display:grid;place-items:center;gap:6px;cursor:pointer}
++.desktop-icon span{font-size:30px}.desktop-icon small{text-align:center;font-size:12px;line-height:1.2}
++.window{position:absolute;width:min(680px,92vw);height:min(430px,70vh);background:var(--card);border:1px solid #334155;border-radius:10px;box-shadow:0 10px 35px #0008;display:none;overflow:hidden}
++.window.open{display:flex;flex-direction:column}
++.window header{background:var(--glass);padding:8px 10px;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:center;cursor:move}
++.window header strong{font-size:13px}.window-controls button{border:0;background:#ef4444;color:#fff;border-radius:6px;padding:4px 8px;cursor:pointer}
++.window main{flex:1;padding:12px;overflow:auto}
++#taskbar{position:absolute;left:10px;right:10px;bottom:10px;background:var(--glass);border:1px solid #334155;border-radius:12px;height:46px;display:flex;align-items:center;padding:6px 10px;gap:10px;backdrop-filter:blur(6px)}
++#startBtn,.task-app{background:#0f172a;border:1px solid #334155;color:#fff;border-radius:8px;padding:6px 10px;cursor:pointer}
++#clock{margin-left:auto;color:var(--muted);font-size:13px}
++#startMenu{position:absolute;bottom:62px;left:10px;width:220px;background:var(--card);border:1px solid #334155;border-radius:12px;padding:10px;display:none}
++#startMenu.open{display:block}
++#startMenu button{width:100%;text-align:left;background:#0f172a;border:1px solid #334155;color:#fff;padding:9px;border-radius:8px;margin-bottom:8px;cursor:pointer}
++textarea,input{width:100%;background:#020617;border:1px solid #334155;color:#e2e8f0;border-radius:8px;padding:8px}
++#terminalOutput{height:230px;overflow:auto;background:#000;border-radius:8px;padding:8px;color:#facc15;font-size:13px}
++#appsGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
++#appsGrid button{background:#0f172a;border:1px solid #334155;color:#fff;padding:10px;border-radius:8px;cursor:pointer}
+ </style>
+ </head>
+-
+ <body>
+-
+-<div id="top">
+-<button onclick="run()">Run</button>
+-<button onclick="saveFile()">Save</button>
+-<button onclick="loadFile()">Load</button>
+-
+-<select onchange="setTheme(this.value)">
+-<option value="dark">Dark</option>
+-<option value="light">Light</option>
+-</select>
++<div id="desktop">
++  <div id="desktopIcons">
++    <button class="desktop-icon" data-open="welcomeWindow"><span>🧭</span><small>Launcher</small></button>
++    <button class="desktop-icon" data-open="terminalWindow"><span>⌨️</span><small>Terminal</small></button>
++    <button class="desktop-icon" data-open="notesWindow"><span>📝</span><small>Notes</small></button>
++    <button class="desktop-icon" data-open="filesWindow"><span>🗂️</span><small>Files</small></button>
++  </div>
++
++  <section class="window open" id="welcomeWindow" style="left:120px;top:70px;z-index:2">
++    <header><strong>Plasma OS Desktop</strong><div class="window-controls"><button data-close="welcomeWindow">✕</button></div></header>
++    <main>
++      <p>Welcome to Plasma OS Desktop. This is now a multi-app desktop web OS for GitHub Pages.</p>
++      <div id="appsGrid">
++        <button data-open="terminalWindow">Open Terminal</button>
++        <button data-open="notesWindow">Open Notes</button>
++        <button data-open="filesWindow">Open Files</button>
++      </div>
++      <p style="color:var(--muted)">Tip: drag window headers to move windows. Use Start to relaunch apps.</p>
++    </main>
++  </section>
++
++  <section class="window" id="terminalWindow" style="left:170px;top:120px">
++    <header><strong>Terminal</strong><div class="window-controls"><button data-close="terminalWindow">✕</button></div></header>
++    <main>
++      <div id="terminalOutput"></div>
++      <div style="margin-top:8px"><input id="terminalInput" placeholder="type help and press enter"></div>
++    </main>
++  </section>
++
++  <section class="window" id="notesWindow" style="left:220px;top:90px">
++    <header><strong>Notes</strong><div class="window-controls"><button data-close="notesWindow">✕</button></div></header>
++    <main>
++      <textarea id="notesText" style="height:240px" placeholder="Write notes..."></textarea>
++      <div style="display:flex;gap:8px;margin-top:8px">
++        <button class="task-app" id="saveNote">Save</button>
++        <button class="task-app" id="clearNote">Clear</button>
++      </div>
++    </main>
++  </section>
++
++  <section class="window" id="filesWindow" style="left:260px;top:140px">
++    <header><strong>Files</strong><div class="window-controls"><button data-close="filesWindow">✕</button></div></header>
++    <main>
++      <p>Virtual local files (saved in browser storage):</p>
++      <ul id="fileList"></ul>
++    </main>
++  </section>
++
++  <div id="startMenu">
++    <button data-open="welcomeWindow">🧭 Launcher</button>
++    <button data-open="terminalWindow">⌨️ Terminal</button>
++    <button data-open="notesWindow">📝 Notes</button>
++    <button data-open="filesWindow">🗂️ Files</button>
++  </div>
++
++  <footer id="taskbar">
++    <button id="startBtn">Start</button>
++    <button class="task-app" data-open="terminalWindow">Terminal</button>
++    <button class="task-app" data-open="notesWindow">Notes</button>
++    <button class="task-app" data-open="filesWindow">Files</button>
++    <div id="clock"></div>
++  </footer>
+ </div>
+ 
+-<textarea id="editor">
+-print("Hello Plasma")
+-
+-x = 5
+-
+-loop 3 {
+- print("Number " + x)
+-}
+-
+-func hi(name){
+- print("Hello " + name)
+-}
+-
+-hi("Sam")
+-</textarea>
+-
+-<div id="output"></div>
+-
+ <script>
+-/* THEME */
+-function setTheme(t){
+-localStorage.setItem("theme",t)
+-applyTheme()
+-}
+-
+-function applyTheme(){
+-let t=localStorage.getItem("theme")||"dark"
+-document.body.className = t==="light"?"light":""
+-}
+-applyTheme()
+-
+-/* FILE */
+-function saveFile(){
+-localStorage.setItem("plasmaCode",editor.value)
+-alert("Saved")
+-}
+-
+-function loadFile(){
+-editor.value = localStorage.getItem("plasmaCode")||""
+-}
+-
+-/* INTERPRETER */
+-function run(){
+-output.innerHTML=""
+-let vars={}
+-let funcs={}
+-
+-let lines=editor.value.split("\n")
+-
+-function log(x){ output.innerHTML+=x+"<br>" }
+-
+-for(let i=0;i<lines.length;i++){
+-let l=lines[i].trim()
+-
+-if(l.startsWith("print")){
+-let inside=l.match(/\((.*)\)/)[1]
+-inside=inside.replace(/"(.*?)"/g,(m,p)=>p)
+-inside=inside.replace(/(\w+)/g,(m)=>vars[m]??m)
+-log(inside)
+-}
+-
+-else if(l.includes("=")){
+-let [a,b]=l.split("=")
+-vars[a.trim()]=b.trim().replace(/"/g,"")
+-}
+-
+-else if(l.startsWith("loop")){
+-let times=parseInt(l.split(" ")[1])
+-let block=[]
+-i++
+-while(!lines[i].includes("}")){
+-block.push(lines[i])
+-i++
+-}
+-for(let t=0;t<times;t++){
+-block.forEach(x=>lines.splice(i+1,0,x))
+-}
+-}
+-
+-else if(l.startsWith("func")){
+-let name=l.split(" ")[1].split("(")[0]
+-let block=[]
+-i++
+-while(!lines[i].includes("}")){
+-block.push(lines[i])
+-i++
+-}
+-funcs[name]=block
+-}
+-
+-else if(l.match(/\w+\(/)){
+-let name=l.split("(")[0]
+-let arg=l.match(/\((.*)\)/)[1].replace(/"/g,"")
+-vars["name"]=arg
+-funcs[name]?.forEach(x=>lines.splice(i+1,0,x))
+-}
+-}
+-}
+-
+-/* PWA */
+-if("serviceWorker" in navigator){
+-navigator.serviceWorker.register("sw.js")
++const windows = [...document.querySelectorAll('.window')]
++const startMenu = document.getElementById('startMenu')
++const clockEl = document.getElementById('clock')
++const fileList = document.getElementById('fileList')
++let z = 5
++
++function openWindow(id){
++  const win = document.getElementById(id)
++  if(!win) return
++  win.classList.add('open')
++  win.style.zIndex = ++z
++  startMenu.classList.remove('open')
++}
++function closeWindow(id){ document.getElementById(id)?.classList.remove('open') }
++function refreshFiles(){
++  const notes = localStorage.getItem('plasma.notes') || ''
++  fileList.innerHTML = `<li>notes.txt — ${notes.length} bytes</li><li>settings.json — ${JSON.stringify({theme:'dark'}).length} bytes</li>`
++}
++
++function termPrint(text){
++  terminalOutput.innerHTML += text + '<br>'
++  terminalOutput.scrollTop = terminalOutput.scrollHeight
++}
++
++function handleCommand(raw){
++  const cmd = raw.trim()
++  if(!cmd) return
++  termPrint(`<span style="color:#38bdf8">$ ${cmd}</span>`)
++  if(cmd === 'help') termPrint('commands: help, about, date, clear, open notes, open files, echo <text>')
++  else if(cmd === 'about') termPrint('Plasma OS Desktop running in your browser.')
++  else if(cmd === 'date') termPrint(new Date().toString())
++  else if(cmd === 'clear') terminalOutput.innerHTML = ''
++  else if(cmd === 'open notes') openWindow('notesWindow')
++  else if(cmd === 'open files') openWindow('filesWindow')
++  else if(cmd.startsWith('echo ')) termPrint(cmd.slice(5))
++  else termPrint('command not found')
++}
++
++document.querySelectorAll('[data-open]').forEach(el=>el.onclick=()=>openWindow(el.dataset.open))
++document.querySelectorAll('[data-close]').forEach(el=>el.onclick=()=>closeWindow(el.dataset.close))
++
++document.getElementById('startBtn').onclick=()=>startMenu.classList.toggle('open')
++
++document.getElementById('terminalInput').addEventListener('keydown',e=>{
++  if(e.key==='Enter'){
++    handleCommand(e.target.value)
++    e.target.value=''
++  }
++})
++
++document.getElementById('saveNote').onclick = ()=>{
++  localStorage.setItem('plasma.notes', notesText.value)
++  refreshFiles()
++  alert('Saved notes.txt')
++}
++
++document.getElementById('clearNote').onclick = ()=>{notesText.value=''}
++notesText.value = localStorage.getItem('plasma.notes') || ''
++
++setInterval(()=>clockEl.textContent = new Date().toLocaleTimeString(), 1000)
++clockEl.textContent = new Date().toLocaleTimeString()
++termPrint('Plasma terminal ready. Type "help".')
++refreshFiles()
++
++windows.forEach(win=>{
++  const bar = win.querySelector('header')
++  let ox=0, oy=0, drag=false
++  bar.addEventListener('mousedown',e=>{drag=true; ox=e.clientX-win.offsetLeft; oy=e.clientY-win.offsetTop; win.style.zIndex=++z})
++  window.addEventListener('mousemove',e=>{if(!drag)return;win.style.left = `${e.clientX-ox}px`;win.style.top = `${e.clientY-oy}px`})
++  window.addEventListener('mouseup',()=>drag=false)
++})
++
++if('serviceWorker' in navigator){
++  navigator.serviceWorker.register('./sw.js', { scope: './' })
+ }
+ </script>
+-
+ </body>
+-</html>
+\ No newline at end of file
++</html>
