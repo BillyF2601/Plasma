@@ -1,12 +1,4 @@
-diff --git a/README.md b/README.md
-index 9821f6761b2b73f4982d034774b73136b762f065..c700f4aa53b9a3a4d809c74e145d34085af6a9b5 100644
---- a/README.md
-+++ b/README.md
-@@ -1 +1,23 @@
--USE THIS ON IOS OR IPADOS PWA APP
-+# Plasma OS Desktop
-+
-+Plasma OS is now a desktop-style browser OS experience designed to run on GitHub Pages.
+Plasma OS is now a desktop-style browser OS experience designed to run on GitHub Pages.
 +
 +## Features
 +
